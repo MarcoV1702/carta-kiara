@@ -58,12 +58,22 @@ body{
 .scene{
     position:relative;
     perspective:1500px;
+    
+}
+@media (max-width: 768px){
+    .scene{
+        transform: scale(1.5);
+        transform-origin: center center;
+    }
+    .letter h2  { font-size: 36px; }
+    .letter p   { font-size: 17px; line-height: 1.55; }
+    .hint       { font-size: 15px; top: -55px; }
 }
 
 /* SOBRE */
 .envelope{
-    width:520px;
-    height:340px;
+    width:min(520px, 94vw);
+    height:min(340px, 62vw);
 
     position:relative;
     overflow:hidden;
@@ -160,9 +170,9 @@ body{
 
     position:absolute;
 
-    width:min(420px, 85vw);
+    width:min(420px, 82vw);
 
-    height:min(520px, 70vh);
+    height:min(520px, 68vh);
 
     background:
         radial-gradient(
@@ -177,10 +187,10 @@ body{
             #f4e7cb
         );
 
-    left:50px;
+    left:min(50px, 5vw);
 
     /* escondida */
-    bottom:-400px;
+    bottom:-600px;
 
     border:1px solid rgba(140,100,60,.15);
 
@@ -466,7 +476,7 @@ contrast(1.08);
 .open .letter{
 
     transform:
-    translateY(-260px)
+    translateY(min(-260px, -45vw))
     scale(1.08);
 
     z-index:50;
@@ -669,6 +679,11 @@ contrast(1.08);
     z-index: 0;
 }
 
+@media (max-width: 600px){
+    .letter h2  { font-size: 36px; }
+    .letter p   { font-size: 17px; line-height: 1.55; }
+    .hint       { font-size: 15px; top: -55px; }
+}
 </style>
 </head>
 
