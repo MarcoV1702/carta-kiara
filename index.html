@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    font-family:Arial;
+
+    background:
+
+        radial-gradient(
+            circle at top,
+            #f7efe3 0%,
+            #e7d6bc 35%,
+            #c8ae87 100%
+        );
+}
+
+/* oscurece fondo */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.8s;
+}
+
+.overlay.active{
+    opacity:1;
+}
+
+.scene{
+    position:relative;
+    perspective:1500px;
+}
+
+/* SOBRE */
+.envelope{
+    width:520px;
+    height:340px;
+
+    position:relative;
+    overflow:hidden;
+
+    filter:
+    drop-shadow(0 20px 30px rgba(0,0,0,.15));
+}
+
+.inner-envelope{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        180deg,
+        #b08a58,
+        #c6a06b
+    );
+
+    z-index:0;
+
+    box-shadow:
+    inset 0 0 25px rgba(0,0,0,.12);
+}
+
+/* textura */
+
+.envelope::after{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.12;
+
+    background:
+
+    radial-gradient(circle at 20% 30%, black 1px, transparent 1px),
+    radial-gradient(circle at 70% 60%, black 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, black 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, black 1px, transparent 1px);
+
+    background-size:
+    18px 18px,
+    24px 24px,
+    22px 22px,
+    16px 16px;
+
+    z-index:20;
+
+    mix-blend-mode:multiply;
+}
+
+.envelope::before{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    box-shadow:
+    inset 0 0 25px rgba(80,40,10,.15);
+
+    z-index:19;
+
+    pointer-events:none;
+}
+
+/* carta */
+
+.letter{
+
+    font-family:'Great Vibes', cursive;
+
+    font-size:30px;
+
+    font-weight:400;
+
+    color:#6b4c2f;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+    line-height:1.2;
+
+    position:relative;
+    z-index:5;
+
+    position:absolute;
+
+    width:min(420px, 85vw);
+
+    height:min(520px, 70vh);
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(210,180,120,.25),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            180deg,
+            #fffaf0,
+            #f4e7cb
+        );
+
+    left:50px;
+
+    /* escondida */
+    bottom:-400px;
+
+    border:1px solid rgba(140,100,60,.15);
+
+    border-radius:8px;
+
+    overflow:hidden;
+
+    padding:30px;
+
+    box-shadow:
+
+    0 20px 50px rgba(0,0,0,.25),
+
+    inset 0 0 20px rgba(120,80,30,.08);
+
+    transition:1.4s cubic-bezier(.22,.8,.21,1);
+
+    z-index:1;
+
+    transform-origin:center bottom;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.letter::-webkit-scrollbar{
+    display: none;
+}
+
+.letter::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.22;
+
+    z-index:2;
+
+    background:
+
+        radial-gradient(circle at 20% 30%, rgba(90,70,30,.25) 1px, transparent 1px),
+        radial-gradient(circle at 70% 60%, rgba(90,70,30,.18) 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(90,70,30,.20) 1px, transparent 1px);
+
+    background-size:
+
+        18px 18px,
+        22px 22px,
+        20px 20px;
+}
+.letter::after{
+
+    content:"";
+
+    position:sticky;
+
+    display: block;
+    bottom: 0;
+
+    width: 100%;
+    height: 50px;
+
+    margin-top: -50px;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:20;
+
+    opacity:.35;
+
+    background:
+
+    linear-gradient(
+        transparent,
+        rgba(244,231,203,.95)
+    );
+}
+
+.letter h2,
+.letter p{
+
+    position:relative;
+
+    z-index:5;
+}
+
+.letter h2{
+
+    font-family:'Great Vibes', cursive;
+
+    font-size:42px;
+
+    font-weight:400;
+
+    color:#6b4c2f;
+
+    margin-bottom:25px;
+
+    text-align:left;
+
+    line-height:1.2;
+
+    position:relative;
+
+    z-index:5;
+
+    border-bottom:1px solid rgba(120,80,40,.15);
+
+    padding-bottom:12px;
+
+    padding-left:8px;
+}
+
+.letter p{
+    font-family:'Cormorant Garamond', serif;
+
+    font-size:20px;
+
+    line-height:1.45;
+
+    color:#463224;
+
+    letter-spacing:.2px;
+
+    position:relative;
+    z-index:5;
+
+    text-align: justify;
+    text-indent: 30px;
+    max-width: 34ch;
+    margin-bottom: 18px;
+}
+
+/* solapas */
+
+.flap{
+    position:absolute;
+}
+
+/* tapa superior */
+
+.top{
+
+    width:0;
+    height:0;
+
+    border-left:260px solid transparent;
+    border-right:260px solid transparent;
+    border-top:170px solid #b28b58;
+
+    transform-origin:top center;
+
+    transition:1.2s;
+
+    z-index:5;
+
+    filter:
+brightness(.95)
+contrast(1.08);
+}
+
+/* laterales */
+
+.left{
+
+    width:0;
+    height:0;
+
+    border-top:170px solid transparent;
+    border-bottom:170px solid transparent;
+    border-left:260px solid #c9ab7c;
+
+    z-index:4;
+
+    filter:
+    brightness(.9);
+}
+
+.right{
+
+    right:0;
+
+    width:0;
+    height:0;
+
+    border-top:170px solid transparent;
+    border-bottom:170px solid transparent;
+    border-right:260px solid #c9ab7c;
+
+    z-index:4;
+
+    filter:
+    brightness(1.05);
+}
+
+.bottom{
+
+    bottom:0;
+
+    width:0;
+    height:0;
+
+    border-left:260px solid transparent;
+    border-right:260px solid transparent;
+    border-bottom:170px solid #d6b789;
+
+    z-index:4;
+
+    filter:
+    brightness(1.12);
+}
+
+/* sello */
+
+.seal{
+
+    position:absolute;
+
+    width:65px;
+    height:65px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(circle,#9e3434,#631515);
+
+    left:228px;
+    top:125px;
+
+    z-index:10;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 6px 12px rgba(0,0,0,.25);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+    font-size:28px;
+
+    transition:.6s;
+}
+
+.seal:hover{
+    transform:scale(1.08);
+}
+
+/* animaciones */
+
+.open .seal{
+
+    opacity:0;
+    transform:scale(.2) rotate(180deg);
+}
+
+.open .top{
+
+    transform:
+    rotateX(180deg);
+
+    z-index:0;
+}
+
+.open{
+
+    overflow:visible;
+}
+
+.open .letter{
+
+    transform:
+    translateY(-260px)
+    scale(1.08);
+
+    z-index:50;
+}
+
+.open .envelope{
+
+    filter:
+    drop-shadow(0 25px 40px rgba(0,0,0,.25));
+}
+
+.stamp{
+
+    position:absolute;
+
+    width:75px;
+    height:75px;
+
+    background:#f5e8d0;
+
+    border:4px dashed rgba(255,255,255,.7);
+
+    border-radius:6px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:42px;
+
+    box-shadow:
+    0 5px 10px rgba(0,0,0,.12);
+
+    z-index:8;
+
+    transition:.4s;
+}
+
+.stamp:hover{
+    transform:scale(1.08) rotate(4deg);
+}
+
+.flower{
+    left:15px;
+    bottom:20px;
+
+    transform:rotate(-8deg);
+}
+
+.penguin{
+    right:15px;
+    bottom:20px;
+
+    transform:rotate(8deg);
+}
+
+.stamp img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:4px;
+}
+
+.crease{
+
+    position:absolute;
+
+    width:1px;
+    height:170px;
+
+    background:
+    linear-gradient(
+    transparent,
+    rgba(90,50,20,.22),
+    transparent);
+
+    z-index:9;
+}
+
+.left-crease{
+
+    left:130px;
+    bottom:0;
+
+    transform:rotate(55deg);
+}
+
+.right-crease{
+
+    right:130px;
+    bottom:0;
+
+    transform:rotate(-55deg);
+}
+
+.hint{
+
+    position:absolute;
+
+    top:-70px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:20px;
+
+    color:#6b4c2f;
+
+    font-style:italic;
+
+    letter-spacing:1px;
+
+    white-space:nowrap;
+
+    opacity:.85;
+
+    animation:floatHint 2s ease-in-out infinite;
+}
+
+
+@keyframes floatHint{
+
+    0%,100%{
+        transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+    50%{
+        transform:
+        translateX(-50%)
+        translateY(-6px);
+    }
+}
+
+.open ~ .hint,
+.open .hint{
+
+    opacity:0;
+
+    transition:.6s;
+}
+
+.close-letter{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    font-family:'Cormorant Garamond', serif;
+
+    font-size:22px;
+
+    color:#6b4c2f;
+
+    cursor:pointer;
+
+    opacity:.7;
+
+    transition:.3s;
+
+    padding-bottom:20px;
+}
+
+.close-letter:hover{
+
+    opacity:1;
+
+    transform:scale(1.05);
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,220,140,.7);
+    animation: twinkle var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+@keyframes twinkle {
+    0%,100% { opacity: .1; transform: scale(.6); }
+    50%     { opacity: .9; transform: scale(1.3); }
+}
+
+.particles-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+</style>
+</head>
+
+<body>
+    <div class="stars" id="stars"></div>
+    <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="scene">
+
+    <div class="hint">
+        Hola Kiarita. Tocá el sello para abrir la carta
+    </div>
+
+    <div class="envelope" id="envelope">
+
+        <div class="crease left-crease"></div>
+        <div class="crease right-crease"></div>
+
+        <div class="stamp flower">
+            <img src="sello_tul.png" alt="">
+        </div>
+        <div class="stamp penguin">
+            <img src="Diseño sin título.png" alt="">
+        </div>
+
+        <div class="inner-envelope"></div>
+
+        <div class="letter">
+
+            <h2>Para Kiara</h2>
+
+            <p>
+                  Bueno como empezar esto che, te lo prometi asi que acá voy a tratar de escribir un poquito
+                para vos, primero que nada felicitaciones, probablemente si estás leyendo esto no importa
+                si sacaste menos de 6, lo importante es que hayas aprobado jajaj de todas maneras te voy a
+                dar lo que acepte como apuesta igual, se que ultimamente te estas sintiendo superada y cansada
+                por todo, universidad, trabajo y demas que no quiero recordarte en esta carta, pero también se 
+                que sos demasiado fuerte mentalmente y que siempre podes con todo esa es una de las cosas que amo
+                de vos, me pone contento saber que aunque te bajoneas cuando no podes más igual no dejas que
+                las cosas te pasen por encima y terminas pudiendo resolver, me gusta que me dejes ayudarte y 
+                participar en eso a veces; me gusta lo "segundera" que sos (es como decir compañera pero argentino jasjsa)
+                para charlar, ver videos, ver series o jugar; como te dije cuando me preguntaste porque me gustas me gusta tu manera
+                de "hacer cortas" las cosas si algo no te gusta lo haces saber, o tu manera de decir las cosas
+                sin importar que piensen que estás equivocada.</p>
+                <p>
+                  Algo que siempre repito y te volver a repetir es que te prometo siempre que pueda y aunque no pueda
+                voy a hacer lo imposible por estar para vos, no importa si estamos peleados o no hablamos o sea lo que 
+                sea que este pasando, aunque sea lo más mínimo pero voy a estar cada vez que me necesites.
+                </p>
+                <p>
+                  También otra cosa que ya sabes, bueno en realidad sabes la mayoria de cosas ya que trato de hacerte
+                saber todo siempre, pero me gusta todo de vos, en todos los aspectos que te imagines, tu forma de ser, tus formas de pensar
+                tus formas de tratarme o hablarme y bueno lo que te recalco siempre tus ojos me vuelven loco ajaajas yyy cuando
+                sonreís me encantas, como se te ponen los ojos, como se levanta tu nariz con tu sonrisa jasja todo en general, te pido
+                perdón si esto se lee raro pero siento que tengo que expresarlo.
+                </p>
+                <p>
+                  Tengo un millón de cosas por decirte, algunas nuevas, algunas repetidasde siempre que ya sabes, pero no quiero
+                mantenerte leyendo esto por mucho tiempo, obviamente tenes que saber que te voy a seguir escribiendo cartitas sjajasj.
+                </p>
+                <p>
+                  Siempre imagino como sería la vida si estuvieramos cerca, sería muy lindo compartiendo todo, viendo peliculas juntos,
+                saliendo por ahí, comiendo juntos o conviviendo. Espero que dentro de muy poco podamos romper esa distancia, te doy mi palabra
+                que voy a hacer todo lo que esté a mi alcance para que sea lo más pronto posible.
+                </p>
+                <p>
+                  En fin quiero que sepas qu te mereces todo lo lindo en el mundo, aunque digas que no. Espero que nunca cambies esa forma 
+                tan linda y tan increible de ser que tenes, estoy muy contento y muy feliz de que estés en mi vida y espero que sigas en ella 
+                por mucho tiempo, como te dije el otro día para la eternidad ajkajasj sea de la manera que sea, tenes que saber que estoy
+                muy orgulloso de vos, no me queda más que agradecerte y repetirte cuanto te aprecio y cuanto significas en mi vida
+                que sos de lo más importante que tengo.
+                </p>
+                <p>
+                    TE AMO CON EL ALMA KIARA
+                </p>
+
+                <div class="close-letter" id="closeLetter">
+                    bueno si queres cerrar la carta toca acá
+                </div>
+
+        </div>
+
+        <div class="flap top"></div>
+        <div class="flap left"></div>
+        <div class="flap right"></div>
+        <div class="flap bottom"></div>
+
+        <!-- botón -->
+
+        <img src="sello_k.png" class="seal" id="seal" alt="Sello">
+
+    </div>
+
+</div>
+
+<script>
+    const starsEl = document.getElementById("stars");
+for (let i = 0; i < 55; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        --dur: ${2 + Math.random() * 4}s;
+        --delay: ${Math.random() * 5}s;
+    `;
+    starsEl.appendChild(s);
+}
+
+const canvas = document.getElementById("particlesCanvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+const particles = [];
+function rnd(min, max) { return min + Math.random() * (max - min); }
+
+function createParticle() {
+    return {
+        x:       rnd(0, canvas.width),
+        y:       rnd(canvas.height * 1.1, canvas.height * 1.3),
+        r:       rnd(1.5, 3.5),
+        speed:   rnd(.25, .7),
+        drift:   rnd(-.3, .3),
+        alpha:   rnd(.2, .65),
+        phase:   rnd(0, Math.PI * 2),
+        freq:    rnd(.008, .022),
+        isHeart: Math.random() < .25,
+    };
+}
+
+for (let i = 0; i < 40; i++) {
+    const p = createParticle();
+    p.y = rnd(0, canvas.height); // dispersión inicial
+    particles.push(p);
+}
+
+function drawHeart(ctx, x, y, size) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size, size);
+    ctx.beginPath();
+    ctx.moveTo(0, -3);
+    ctx.bezierCurveTo(5, -8, 10, 0, 0, 8);
+    ctx.bezierCurveTo(-10, 0, -5, -8, 0, -3);
+    ctx.fill();
+    ctx.restore();
+}
+
+function animParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.y     -= p.speed;
+        p.x     += p.drift + Math.sin(p.phase) * .4;
+        p.phase += p.freq;
+        if (p.y < -20) Object.assign(p, createParticle());
+
+        if (p.isHeart) {
+            ctx.fillStyle = `rgba(220,100,100,${p.alpha * .8})`;
+            drawHeart(ctx, p.x, p.y, p.r * .8);
+        } else {
+            const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+            glow.addColorStop(0, `rgba(255,210,100,${p.alpha})`);
+            glow.addColorStop(1, `rgba(255,170,60,0)`);
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    });
+    requestAnimationFrame(animParticles);
+}
+animParticles();
+
+const seal = document.getElementById("seal");
+const envelope = document.getElementById("envelope");
+const overlay = document.getElementById("overlay");
+
+seal.addEventListener("click",()=>{
+
+    envelope.classList.toggle("open");
+    overlay.classList.toggle("active");
+
+});
+
+overlay.addEventListener("click",()=>{
+
+    envelope.classList.remove("open");
+    overlay.classList.remove("active");
+
+});
+
+closeLetter.addEventListener("click",()=>{
+
+    const letter =
+    document.querySelector(".letter");
+
+    letter.scrollTo({
+
+        top:0,
+        behavior:"smooth"
+
+    });
+
+    setTimeout(()=>{
+
+        envelope.classList.remove("open");
+        overlay.classList.remove("active");
+
+    },500);
+
+});
+
+function drawHeart(ctx, x, y, size){
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size, size);
+    ctx.beginPath();
+    ctx.moveTo(0, -3);
+    ctx.bezierCurveTo(5, -8, 10, 0, 0, 8);
+    ctx.bezierCurveTo(-10, 0, -5, -8, 0, -3);
+    ctx.fill();
+    ctx.restore();
+}
+</script>
+
+</body>
+</html>
